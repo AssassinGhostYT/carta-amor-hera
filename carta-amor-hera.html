@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Para Hera, mi Amor Eterno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        /* Reset ultra optimizado */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pacifico', cursive;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Fondo cósmico */
+        body {
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, #1a0033 0%, #000011 50%, #000000 100%);
+            height: 100vh;
+            cursor: crosshair;
+            perspective: 1000px;
+        }
+
+        /* Canvas para efectos estelares */
+        #cosmic-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Fondo cósmico gradiente */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(75, 0, 130, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 70%, rgba(25, 25, 112, 0.3) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        /* Mensaje cósmico */
+        .cosmic-message {
+            position: fixed;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            text-align: center;
+            color: #fff;
+            font-size: clamp(16px, 3vw, 24px);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            animation: fadeInMessage 1s ease-in-out 1s forwards;
+        }
+
+        .cosmic-subtitle {
+            font-size: clamp(12px, 2vw, 16px);
+            margin-top: 10px;
+            color: #bbb;
+            font-style: italic;
+        }
+
+        @keyframes fadeInMessage {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* Escena de lluvia optimizada */
+        .escena-lluvia {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            overflow: hidden;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        /* Nubes con aceleración por GPU */
+        .nube {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            filter: blur(25px);
+            z-index: 6;
+            animation: flotar-nube 40s infinite linear;
+            will-change: transform;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+
+        @keyframes flotar-nube {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(100px, -30px); }
+        }
+
+        /* Gotas de lluvia ultra optimizadas */
+        .gotalluvia {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            z-index: 7;
+            animation: caer-lluvia linear forwards;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
+            will-change: transform;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+            display: none;
+        }
+
+        @keyframes caer-lluvia {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* Intro estilo Matrix */
+        #matrix-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 42, 108, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            backdrop-filter: blur(3px);
+        }
+
+        .matrix-line {
+            color: white;
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 20, 147, 0.9);
+            margin: 15px 0;
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: matrixLine 5s infinite cubic-bezier(0.25, 1, 0.5, 1);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            will-change: transform, opacity;
+        }
+
+        @keyframes matrixLine {
+            0% { opacity: 0; transform: translateY(-50px); }
+            20% { opacity: 1; transform: translateY(0); }
+            80% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(50px); }
+        }
+
+        #countdown {
+            color: #ff1493;
+            font-size: 5rem;
+            font-weight: bold;
+            text-shadow: 0 0 30px white;
+            margin-top: 40px;
+            opacity: 0;
+            transition: all 0.5s;
+            will-change: transform;
+        }
+
+        /* Sobre con efecto 3D */
+        #sobre-contenedor {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            max-width: 350px;
+            height: 50vh;
+            max-height: 280px;
+            z-index: 20;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8) rotateY(30deg);
+            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform;
+        }
+
+        #sobre {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #fff9f9;
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(255, 105, 180, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 30;
+            overflow: hidden;
+            transition: all 0.8s cubic-bezier(0.32, 0, 0.67, 0);
+            will-change: transform;
+        }
+
+        #sobre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 50vw solid transparent;
+            border-right: 50vw solid transparent;
+            border-top: 25vh solid #ffe6e6;
+            transform-origin: top;
+            transform: rotateX(0deg);
+            transition: all 1s cubic-bezier(0.32, 0, 0.67, 0);
+            z-index: 5;
+            filter: drop-shadow(0 -10px 10px rgba(0,0,0,0.2));
+            will-change: transform;
+        }
+
+        #corazon-sobre {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 4rem;
+            color: #ff1493;
+            z-index: 15;
+            animation: latido 2s infinite ease-out;
+            text-shadow: 0 0 25px rgba(255, 20, 147, 0.7);
+            will-change: transform;
+        }
+
+        @keyframes latido {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.3); }
+        }
+
+        .titulo-sobre {
+            font-size: 2.2rem;
+            color: #ff1493;
+            font-weight: 900;
+            z-index: 15;
+            text-align: center;
+            margin-bottom: 15px;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-family: 'Pacifico', cursive;
+            will-change: transform;
+        }
+
+        .subtitulo-sobre {
+            font-size: 1.2rem;
+            color: #ff69b4;
+            z-index: 15;
+            animation: parpadeo 3s infinite;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-family: 'Pacifico', cursive;
+        }
+
+        @keyframes parpadeo {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Carta con efecto de pergamino */
+        #carta {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            max-width: 380px;
+            height: 75vh;
+            max-height: 600px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-sizing: border-box;
+            z-index: 25;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.9);
+            overflow-y: auto;
+            display: none;
+            opacity: 0;
+            transform: translate(-50%, -50%) translateY(30px);
+            transition: all 1s cubic-bezier(0.33, 1, 0.68, 1);
+            background-image: 
+                linear-gradient(to bottom, rgba(255,182,193,0.2) 0%, rgba(255,255,255,0) 20%),
+                url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><pattern id="pattern" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse"><circle cx="12.5" cy="12.5" r="1.5" fill="%23ffb6c1" opacity="0.3"/></pattern><rect x="0" y="0" width="100%" height="100%" fill="url(%23pattern)"/></svg>');
+            will-change: transform;
+        }
+
+        #texto-carta {
+            font-size: 1.2rem;
+            color: #333;
+            line-height: 2;
+            text-align: center;
+            padding: 20px;
+            font-family: 'Dancing Script', cursive;
+            background: linear-gradient(to right, #ff1493, #ff69b4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        #cerrar-carta {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: #ff1493;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 40;
+            opacity: 0;
+            transition: all 0.5s;
+            box-shadow: 0 3px 15px rgba(255, 20, 147, 0.7);
+            border: none;
+            outline: none;
+        }
+
+        #cerrar-carta:hover {
+            transform: scale(1.2);
+            background: #ff0066;
+        }
+
+        /* Efecto explosión corazón */
+        #corazon-neon {
+            position: fixed;
+            font-size: 8rem;
+            color: #ff00aa;
+            text-shadow: 0 0 40px #ff00aa;
+            z-index: 35;
+            opacity: 0;
+            pointer-events: none;
+            animation: explosion 2s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            will-change: transform;
+        }
+
+        @keyframes explosion {
+            0% { transform: scale(0.3); opacity: 0; }
+            20% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(5); opacity: 0; }
+        }
+
+        /* Globos */
+        .globo {
+            position: absolute;
+            width: 18vw;
+            height: 21vw;
+            min-width: 80px;
+            min-height: 95px;
+            background: var(--color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 50;
+            animation: flotar-globo 10s infinite ease-in-out;
+            opacity: 0;
+            transition: opacity 0.6s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            text-shadow: 0 3px 8px rgba(0,0,0,0.4);
+            touch-action: manipulation;
+            font-family: 'Dancing Script', cursive;
+            will-change: transform;
+        }
+
+        .globo::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            width: 12px;
+            height: 18px;
+            background: var(--color);
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            transform: translateX(-50%);
+            filter: brightness(0.8);
+        }
+
+        @keyframes flotar-globo {
+            0%, 100% { transform: translateY(0) rotate(-8deg); }
+            50% { transform: translateY(-40px) rotate(8deg); }
+        }
+
+        /* Efecto final */
+        #final-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 100;
+            background: rgba(26, 42, 108, 0.85);
+            backdrop-filter: blur(10px);
+        }
+
+        #final-text {
+            color: white;
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(40px);
+            text-shadow: 0 0 30px rgba(255,255,255,0.9);
+            animation: matrixFinal 4s infinite linear;
+        }
+
+        @keyframes matrixFinal {
+            0%, 100% { text-shadow: 0 0 30px rgba(255,255,255,0.9); }
+            50% { text-shadow: 0 0 50px white, 0 0 25px #ff1493; }
+        }
+
+        #zeus-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.7);
+            transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #zeus-img {
+            font-size: 4rem;
+            color: gold;
+            text-shadow: 0 0 30px rgba(255,215,0,0.95);
+            margin-bottom: 1.5rem;
+            animation: latido-zeus 2s infinite ease-in-out;
+        }
+
+        @keyframes latido-zeus {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        #zeus-text {
+            color: #ff1493;
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 25px rgba(255,105,180,0.9);
+            animation: brillo-zeus 3s infinite alternate;
+            font-family: 'Pacifico', cursive;
+        }
+
+        @keyframes brillo-zeus {
+            0% { text-shadow: 0 0 25px rgba(255,105,180,0.9); }
+            100% { text-shadow: 0 0 40px #ff1493, 0 0 20px white; }
+        }
+
+        /* GIF de Zeus */
+        #zeus-gif {
+            width: 200px;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s;
+        }
+
+        /* Nuevos elementos: Flores y ositos */
+        .flor {
+            position: absolute;
+            font-size: 2rem;
+            z-index: 45;
+            animation: caer-flor linear forwards, girar-flor 4s infinite linear;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes caer-flor {
+            to { transform: translateY(100vh); }
+        }
+
+        @keyframes girar-flor {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .osito {
+            position: absolute;
+            font-size: 3rem;
+            z-index: 45;
+            animation: rebotar 2s infinite ease-in-out;
+            opacity: 0;
+            transform: translateY(-100px);
+            transition: all 0.5s;
+        }
+
+        @keyframes rebotar {
+            0%, 100% { transform: translateY(-20px); }
+            50% { transform: translateY(20px); }
+        }
+
+        /* Fuentes personalizadas */
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@700&display=swap');
+    </style>
+</head>
+<body>
+    <!-- Fondo cósmico -->
+    <div class="cosmic-bg"></div>
+    <canvas id="cosmic-canvas"></canvas>
+    <div class="cosmic-message">
+        <div>Te amo en cada universo</div>
+        <div class="cosmic-subtitle">Hera, eres mi estrella más brillante</div>
+    </div>
+
+    <!-- Escena de lluvia optimizada -->
+    <div class="escena-lluvia" id="escena-lluvia"></div>
+
+    <!-- Intro con lluvia de amor -->
+    <div id="matrix-intro">
+        <div class="matrix-line">TE AMO HERA</div>
+        <div class="matrix-line">PARA SIEMPRE</div>
+        <div id="countdown">3</div>
+    </div>
+
+    <!-- Sobre con efecto 3D -->
+    <div id="sobre-contenedor">
+        <div id="sobre">
+            <div id="corazon-sobre">❤️</div>
+            <div class="titulo-sobre">Para Hera</div>
+            <div class="subtitulo-sobre">Toca el sobre, mi amor</div>
+        </div>
+    </div>
+
+    <!-- Carta de amor -->
+    <div id="carta">
+        <div id="texto-carta">
+            Ana Del Carmen,<br><br>
+            Desde que llegaste a mi vida, todo cobró sentido. Cada día a tu lado es un regalo que atesoro con todo mi corazón Siento mucho lo que pasó, no era mi intención lastimarte. Te amo y quiero que sepas que estoy arrepentido Entiendo que te haya dolido, y me hago responsable de mis acciones. Prometo esforzarme para que esto no vuelva a suceder. Te amo.<br><br>
+            Eres:<br>
+            💖 Mi razón para sonreír<br>
+            💖 Mi paz en el caos<br>
+            💖 Mi sueño hecho realidad<br>
+            💖 Mi amor eterno<br><br>
+            No hay palabras que alcancen para expresar lo que siento por ti. Prometo amarte en cada momento, en cada etapa de nuestras vidas No me he comportado bien los últimos meses. Sé que te herí con mis palabras Cometí un grave error de dejarte sola sabiendo tu situacion, y no hay excusas para ello.<br><br> Cometí un error y me duele mucho haberte lastimado. Te pido perdón de corazón Siento mucho lo que hice. No era mi intención causarte dolor y me arrepiento profundamente. Sé que te he fallado y quiero que sepas que estoy comprometido/a a cambiar y a ser mejor para ti.<br><br>Te amo más que a nada en el mundo y no quiero perderte. Por favor, dame otra oportunidad. Me duele verte así y me duele aún más saber que soy el causante. Por favor, perdóname. Quiero hacer todo lo posible para solucionar esto y que volvamos a ser felices juntos.<br><br>
+            Por siempre tuyo Brayan(⚡ZeuS⚡)... cierra la carta😍
+        </div>
+        <button id="cerrar-carta">✕</button>
+    </div>
+
+    <!-- Efecto final con Zeus -->
+    <div id="final-effect">
+        <div id="final-text">TE AMO HERA</div>
+        <div id="zeus-container">
+            <div id="zeus-img">⚡ ZEUS ⚡</div>
+            <div id="zeus-text">Hera TE amo</div>
+            <img id="zeus-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDZ1b3V6cW5tY2Z1b2NqZzV6ZHV2dGx5d2RqY3FkY3FqY2Z5ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT5LMHxhOfscxPfIfm/giphy.gif" alt="Zeus GIF">
+        </div>
+    </div>
+
+    <!-- Música romántica en inglés (Perfect - Ed Sheeran) -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // =============================================
+        // CÓDIGO PARA LOS EFECTOS CÓSMICOS
+        // =============================================
+        const cosmicMessages = [
+            "Eres mi universo",
+            "Toda mi galaxia eres tú",
+            "Brillas más que todas las estrellas",
+            "Mi amor por ti es infinito",
+            "Eres mi constelación favorita"
+        ];
+        const fallingTexts = [];
+
+        function heartShape(t, scale = 1) {
+            const x = 16 * Math.pow(Math.sin(t), 3);
+            const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+            return { x: x * scale, y: y * scale };
+        }
+
+        const cosmicCanvas = document.getElementById('cosmic-canvas');
+        const cosmicCtx = cosmicCanvas.getContext('2d');
+
+        let cosmicWidth = cosmicCanvas.width = window.innerWidth;
+        let cosmicHeight = cosmicCanvas.height = window.innerHeight;
+
+        const stars = [];
+        const heartStars = [];
+        const meteors = [];
+
+        let mouseX = cosmicWidth / 2;
+        let mouseY = cosmicHeight / 2;
+        let heartBeat = 1;
+        let heartScale = Math.min(cosmicWidth, cosmicHeight) * 0.015;
+
+        function createHeartStars(count = 800) {
+            const centerX = cosmicWidth / 2;
+            const centerY = cosmicHeight / 2 + 20;
+            for (let i = 0; i < count; i++) {
+                const t = (i / count) * Math.PI * 2;
+                const heart = heartShape(t, heartScale);
+                const offsetX = (Math.random() - 0.5) * 15;
+                const offsetY = (Math.random() - 0.5) * 15;
+
+                const targetX = centerX + heart.x + offsetX;
+                const targetY = centerY + heart.y + offsetY;
+
+                heartStars.push({
+                    x: Math.random() * cosmicWidth,
+                    y: Math.random() * cosmicHeight,
+                    targetX,
+                    targetY,
+                    originalX: targetX,
+                    originalY: targetY,
+                    size: Math.random() * 2 + 1,
+                    twinkle: Math.random() * Math.PI * 2,
+                    twinkleSpeed: Math.random() * 0.02 + 0.01,
+                    brightness: Math.random() * 0.5 + 0.5,
+                    hue: Math.random() * 60 + 300,
+                    mode: 'flying'
+                });
+            }
+        }
+
+        function createBackgroundStars() {
+            for (let i = 0; i < 100; i++) {
+                stars.push({
+                    x: Math.random() * cosmicWidth,
+                    y: Math.random() * cosmicHeight,
+                    size: Math.random() * 2 + 0.5,
+                    twinkle: Math.random() * Math.PI * 2,
+                    twinkleSpeed: Math.random() * 0.01 + 0.005,
+                    brightness: Math.random() * 0.3 + 0.2
+                });
+            }
+        }
+
+        function createMeteor() {
+            meteors.push({
+                x: Math.random() * cosmicWidth,
+                y: -50,
+                length: Math.random() * 80 + 50,
+                speed: Math.random() * 6 + 6,
+                angle: Math.PI / 4 + (Math.random() - 0.5) * 0.2,
+                alpha: 1
+            });
+        }
+
+        function createFallingText() {
+            const text = cosmicMessages[Math.floor(Math.random() * cosmicMessages.length)];
+            const fontSize = Math.random() * 10 + 10;
+
+            cosmicCtx.font = `bold ${fontSize}px Pacifico`;
+            const textWidth = cosmicCtx.measureText(text).width;
+
+            const x = Math.random() * (cosmicWidth - textWidth); 
+
+            fallingTexts.push({
+                text,
+                x,
+                y: -10,
+                speed: Math.random() * 2 + 2,
+                alpha: 1,
+                fontSize,
+                hue: Math.random() * 360
+            });
+        }
+
+        function animateCosmic() {
+            cosmicCtx.clearRect(0, 0, cosmicWidth, cosmicHeight);
+            heartBeat += 0.1;
+
+            // Dibujar estrellas de fondo
+            stars.forEach(star => {
+                star.twinkle += star.twinkleSpeed;
+                const flicker = Math.random() < 0.005 ? 1 : 0;
+                const baseOpacity = star.brightness * (0.4 + 0.6 * Math.sin(star.twinkle));
+                const opacity = Math.min(1, baseOpacity + flicker);
+
+                cosmicCtx.save();
+                cosmicCtx.globalAlpha = opacity;
+                cosmicCtx.fillStyle = '#ffffff';
+                cosmicCtx.shadowBlur = flicker ? 20 : 0;
+                cosmicCtx.shadowColor = flicker ? '#fff' : 'transparent';
+                cosmicCtx.beginPath();
+                cosmicCtx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                cosmicCtx.fill();
+                cosmicCtx.restore();
+            });
+
+            // Dibujar meteoros
+            meteors.forEach((m, i) => {
+                const dx = Math.cos(m.angle) * m.length;
+                const dy = Math.sin(m.angle) * m.length;
+                cosmicCtx.save();
+                cosmicCtx.globalAlpha = m.alpha;
+                cosmicCtx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+                cosmicCtx.lineWidth = 2;
+                cosmicCtx.beginPath();
+                cosmicCtx.moveTo(m.x, m.y);
+                cosmicCtx.lineTo(m.x - dx, m.y - dy);
+                cosmicCtx.stroke();
+                cosmicCtx.restore();
+                m.x += Math.cos(m.angle) * m.speed;
+                m.y += Math.sin(m.angle) * m.speed;
+                m.alpha -= 0.005;
+                if (m.alpha <= 0) meteors.splice(i, 1);
+            });
+
+            // Dibujar textos flotantes
+            fallingTexts.forEach((t, i) => {
+                cosmicCtx.save();
+                cosmicCtx.font = `bold ${t.fontSize}px Pacifico`;
+                cosmicCtx.fillStyle = `hsla(${t.hue}, 100%, 85%, ${t.alpha})`;
+                cosmicCtx.shadowBlur = 5;
+                cosmicCtx.shadowColor = `hsla(${t.hue}, 100%, 70%, ${t.alpha})`;
+                cosmicCtx.fillText(t.text, t.x, t.y);
+                cosmicCtx.restore();
+
+                t.y += t.speed;
+                t.alpha -= 0.002;
+
+                if (t.y > cosmicHeight + 30 || t.alpha <= 0) {
+                    fallingTexts.splice(i, 1);
+                }
+            });
+
+            // Dibujar estrellas con forma de corazón
+            heartStars.forEach((star, i) => {
+                star.twinkle += star.twinkleSpeed;
+                const centerX = cosmicWidth / 2;
+                const centerY = cosmicHeight / 2 + 20;
+
+                if (star.mode === 'flying') {
+                    const dx = star.targetX - star.x;
+                    const dy = star.targetY - star.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const speed = 0.07;
+                    if (dist > 1) {
+                        star.x += dx * speed;
+                        star.y += dy * speed;
+                    } else {
+                        star.mode = 'heart';
+                    }
+                } else {
+                    const deltaX = star.originalX - centerX;
+                    const deltaY = star.originalY - centerY;
+                    const beatScale = 1 + Math.sin(heartBeat) * 0.05;
+                    star.x = centerX + deltaX * beatScale;
+                    star.y = centerY + deltaY * beatScale;
+
+                    const distanceToMouse = Math.hypot(mouseX - star.x, mouseY - star.y);
+                    let interactionForce = 0;
+                    if (distanceToMouse < 100) {
+                        interactionForce = (100 - distanceToMouse) / 100;
+                        const angle = Math.atan2(star.y - mouseY, star.x - mouseX);
+                        star.x += Math.cos(angle) * interactionForce * 10;
+                        star.y += Math.sin(angle) * interactionForce * 10;
+                    }
+                }
+
+                const twinkleOpacity = star.brightness * (0.3 + 0.7 * Math.sin(star.twinkle));
+                cosmicCtx.save();
+                cosmicCtx.globalAlpha = twinkleOpacity;
+                cosmicCtx.fillStyle = `hsl(${star.hue}, 70%, 80%)`;
+                cosmicCtx.shadowBlur = 10;
+                cosmicCtx.shadowColor = `hsl(${star.hue}, 70%, 60%)`;
+                cosmicCtx.beginPath();
+                cosmicCtx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                cosmicCtx.fill();
+                cosmicCtx.restore();
+            });
+
+            requestAnimationFrame(animateCosmic);
+        }
+
+        cosmicCanvas.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        cosmicCanvas.addEventListener('click', (e) => {
+            const centerX = cosmicWidth / 2;
+            const centerY = cosmicHeight / 2 + 20;
+            heartScale *= 1.015;
+            heartStars.forEach((star, i) => {
+                if (star.mode === 'heart') {
+                    const t = (i / heartStars.length) * Math.PI * 2;
+                    const heart = heartShape(t, heartScale);
+                    const offsetX = (Math.random() - 0.5) * 15;
+                    const offsetY = (Math.random() - 0.5) * 15;
+                    star.originalX = centerX + heart.x + offsetX;
+                    star.originalY = centerY + heart.y + offsetY;
+                }
+            });
+
+            for (let i = 0; i < 5; i++) {
+                const t = Math.random() * Math.PI * 2;
+                const heart = heartShape(t, heartScale);
+                const targetX = centerX + heart.x;
+                const targetY = centerY + heart.y;
+
+                heartStars.push({
+                    x: e.clientX + (Math.random() - 0.5) * 50,
+                    y: e.clientY + (Math.random() - 0.5) * 50,
+                    targetX,
+                    targetY,
+                    originalX: targetX,
+                    originalY: targetY,
+                    size: Math.random() * 3 + 2,
+                    twinkle: Math.random() * Math.PI * 2,
+                    twinkleSpeed: Math.random() * 0.03 + 0.02,
+                    brightness: Math.random() * 0.8 + 0.6,
+                    hue: Math.random() * 60 + 300,
+                    mode: 'flying'
+                });
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            cosmicWidth = cosmicCanvas.width = window.innerWidth;
+            cosmicHeight = cosmicCanvas.height = window.innerHeight;
+            heartScale = Math.min(cosmicWidth, cosmicHeight) * 0.015;
+            heartStars.length = 0;
+            stars.length = 0;
+            createHeartStars();
+            createBackgroundStars();
+        });
+
+        setInterval(() => { if (Math.random() < 0.7) createMeteor(); }, 3000);
+        setInterval(() => { if (Math.random() < 0.8) createFallingText(); }, 2000);
+
+        // =============================================
+        // CÓDIGO ORIGINAL DE LA CARTA DE AMOR
+        // =============================================
+        let globosExplotados = 0;
+        const frasesGlobos = ["Te amo", "Eres mi vida", "Mi corazón", "Hera mi amor", "Mi felicidad"];
+        const coloresGlobos = ["#ff1493", "#ff00aa", "#ff69b4", "#ff8c00", "#9370db"];
+
+        // Pool de gotas para reutilización
+        const gotasPool = [];
+        const MAX_GOTAS = 30;
+
+        // Inicialización optimizada
+        document.addEventListener('DOMContentLoaded', () => {
+            // Iniciar efectos cósmicos
+            createHeartStars();
+            createBackgroundStars();
+            animateCosmic();
+            
+            // Iniciar efectos de carta de amor
+            crearNubes(3);
+            iniciarIntro();
+            precalentarGotas();
+            
+            // Configuración de música
+            const music = document.getElementById('bg-music');
+            music.volume = 0.5;
+            
+            const tryPlayMusic = () => {
+                music.play().catch(e => {
+                    const playOnInteraction = () => {
+                        music.play();
+                        document.body.removeEventListener('click', playOnInteraction);
+                        document.body.removeEventListener('touchstart', playOnInteraction);
+                    };
+                    
+                    document.body.addEventListener('click', playOnInteraction, { once: true });
+                    document.body.addEventListener('touchstart', playOnInteraction, { once: true });
+                });
+            };
+            
+            tryPlayMusic();
+        });
+
+        // Pre-crear gotas para reutilización
+        function precalentarGotas() {
+            const escena = document.getElementById('escena-lluvia');
+            for (let i = 0; i < MAX_GOTAS; i++) {
+                const gota = document.createElement('div');
+                gota.className = 'gotalluvia';
+                gota.style.display = 'none';
+                escena.appendChild(gota);
+                gotasPool.push(gota);
+            }
+            
+            // Iniciar lluvia después de preparar las gotas
+            setTimeout(iniciarLluvia, 1000);
+        }
+
+        // Sistema de lluvia optimizado
+        function iniciarLluvia() {
+            const frases = ["TE AMO", "HERA", "❤️", "LOVE", "YOU"];
+            let lastTime = 0;
+            const interval = 200;
+            
+            function animarLluvia(timestamp) {
+                if (!lastTime || timestamp - lastTime >= interval) {
+                    lastTime = timestamp;
+                    
+                    // Reutilizar gotas de la pool
+                    const gotaDisponible = gotasPool.find(g => g.style.display === 'none');
+                    
+                    if (gotaDisponible) {
+                        gotaDisponible.textContent = frases[Math.floor(Math.random() * frases.length)];
+                        gotaDisponible.style.left = `${Math.random() * 100}vw`;
+                        gotaDisponible.style.top = '-50px';
+                        gotaDisponible.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                        gotaDisponible.style.display = 'block';
+                        gotaDisponible.style.opacity = Math.random() * 0.7 + 0.3;
+                        gotaDisponible.style.fontSize = `${Math.random() * 1.5 + 1}rem`;
+                        gotaDisponible.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
+                        
+                        // Resetear la gota después de la animación
+                        setTimeout(() => {
+                            gotaDisponible.style.display = 'none';
+                        }, parseFloat(gotaDisponible.style.animationDuration) * 1000);
+                    }
+                }
+                requestAnimationFrame(animarLluvia);
+            }
+            
+            requestAnimationFrame(animarLluvia);
+        }
+
+        // Nubes optimizadas
+        function crearNubes(cantidad) {
+            const escena = document.getElementById('escena-lluvia');
+            for (let i = 0; i < cantidad; i++) {
+                const nube = document.createElement('div');
+                nube.className = 'nube';
+                const size = Math.random() * 150 + 100;
+                nube.style.width = `${size}px`;
+                nube.style.height = `${size * 0.5}px`;
+                nube.style.left = `${Math.random() * 100}vw`;
+                nube.style.top = `${Math.random() * 30}vh`;
+                nube.style.animationDuration = `${Math.random() * 50 + 30}s`;
+                nube.style.animationDelay = `${Math.random() * 20}s`;
+                nube.style.opacity = Math.random() * 0.4 + 0.3;
+                escena.appendChild(nube);
+            }
+        }
+
+        // Intro con efectos
+        function iniciarIntro() {
+            const lines = document.querySelectorAll('.matrix-line');
+            const countdown = document.getElementById('countdown');
+            
+            // Animación líneas
+            lines.forEach((line, i) => {
+                setTimeout(() => {
+                    line.style.opacity = '1';
+                    line.style.transform = 'translateY(0)';
+                    line.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+                }, i * 600);
+            });
+            
+            // Cuenta regresiva
+            setTimeout(() => {
+                countdown.style.opacity = '1';
+                countdown.style.transition = 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+                
+                let count = 3;
+                const timer = setInterval(() => {
+                    countdown.textContent = count;
+                    countdown.style.transform = 'scale(1.3)';
+                    setTimeout(() => { 
+                        countdown.style.transform = 'scale(1)';
+                    }, 300);
+                    
+                    if (count-- === 0) {
+                        clearInterval(timer);
+                        countdown.textContent = '❤️';
+                        countdown.style.textShadow = '0 0 40px white';
+                        
+                        // Transición al sobre
+                        setTimeout(() => {
+                            document.getElementById('matrix-intro').style.opacity = '0';
+                            setTimeout(() => {
+                                document.getElementById('matrix-intro').style.display = 'none';
+                                mostrarSobre();
+                            }, 1000);
+                        }, 1500);
+                    }
+                }, 1000);
+            }, 1500);
+        }
+
+        // Mostrar sobre
+        function mostrarSobre() {
+            const sobre = document.getElementById('sobre-contenedor');
+            sobre.style.opacity = '1';
+            sobre.style.transform = 'translate(-50%, -50%) scale(1) rotateY(0)';
+            
+            // Efecto de levitación
+            const levitar = () => {
+                const movimientoY = Math.sin(Date.now() / 800) * 10;
+                sobre.style.transform = `translate(-50%, calc(-50% + ${movimientoY}px)) scale(1) rotateY(0)`;
+                requestAnimationFrame(levitar);
+            };
+            levitar();
+            
+            // Evento de click
+            sobre.addEventListener('click', () => {
+                sobre.style.transform = 'translate(-50%, -50%) scale(0.9) rotateY(20deg)';
+                setTimeout(abrirSobre, 500);
+            }, { once: true });
+            
+            document.getElementById('cerrar-carta').addEventListener('click', cerrarCarta);
+        }
+
+        // Abrir sobre
+        function abrirSobre() {
+            const sobre = document.getElementById('sobre-contenedor');
+            sobre.style.opacity = '0';
+            sobre.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            
+            // Crear corazones de explosión
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const corazon = document.createElement('div');
+                    corazon.className = 'corazon-neon';
+                    corazon.innerHTML = '❤️';
+                    corazon.style.position = 'fixed';
+                    corazon.style.top = `${window.innerHeight/2}px`;
+                    corazon.style.left = `${window.innerWidth/2}px`;
+                    corazon.style.fontSize = '6rem';
+                    corazon.style.animation = 'explosion 2s forwards';
+                    corazon.style.zIndex = '35';
+                    document.body.appendChild(corazon);
+                    
+                    setTimeout(() => corazon.remove(), 2000);
+                }, i * 300);
+            }
+            
+            // Mostrar carta
+            setTimeout(() => {
+                const carta = document.getElementById('carta');
+                carta.style.display = 'block';
+                setTimeout(() => {
+                    carta.style.opacity = '1';
+                    carta.style.transform = 'translate(-50%, -50%) translateY(0)';
+                    document.getElementById('cerrar-carta').style.opacity = '1';
+                }, 200);
+            }, 800);
+        }
+
+        // Cerrar carta
+        function cerrarCarta() {
+            const carta = document.getElementById('carta');
+            carta.style.opacity = '0';
+            carta.style.transform = 'translate(-50%, -50%) translateY(30px)';
+            
+            setTimeout(() => {
+                carta.style.display = 'none';
+                crearGlobos();
+            }, 800);
+        }
+
+        // Crear globos
+        function crearGlobos() {
+            frasesGlobos.forEach((frase, i) => {
+                setTimeout(() => {
+                    const globo = document.createElement('div');
+                    globo.className = 'globo';
+                    globo.style.setProperty('--color', coloresGlobos[i]);
+                    globo.style.left = `${Math.random() * 70 + 15}vw`;
+                    globo.style.bottom = '-150px';
+                    globo.textContent = frase;
+                    globo.style.animationDuration = `${Math.random() * 6 + 8}s`;
+                    
+                    // Animación de aparición
+                    setTimeout(() => {
+                        globo.style.opacity = '1';
+                        globo.style.bottom = `${Math.random() * 30 + 15}vh`;
+                        globo.style.transition = 'bottom 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    }, 100);
+                    
+                    // Efecto al explotar
+                    globo.addEventListener('click', function() {
+                        this.style.transform = 'scale(2) rotateZ(30deg)';
+                        this.style.opacity = '0';
+                        this.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                        
+                        // Mostrar frase
+                        const fraseElem = document.createElement('div');
+                        fraseElem.textContent = frase;
+                        fraseElem.style.position = 'absolute';
+                        fraseElem.style.left = this.style.left;
+                        fraseElem.style.bottom = this.style.bottom;
+                        fraseElem.style.color = '#ff1493';
+                        fraseElem.style.fontWeight = 'bold';
+                        fraseElem.style.fontSize = '1.8rem';
+                        fraseElem.style.textShadow = '0 0 25px white';
+                        fraseElem.style.fontFamily = 'Pacifico, cursive';
+                        document.body.appendChild(fraseElem);
+                        
+                        setTimeout(() => {
+                            this.remove();
+                            fraseElem.remove();
+                            if (++globosExplotados === 5) mostrarFinal();
+                        }, 2500);
+                    });
+                    
+                    document.body.appendChild(globo);
+                }, i * 800);
+            });
+        }
+
+        // Efecto final mejorado con flores y ositos
+        function mostrarFinal() {
+            const effect = document.getElementById('final-effect');
+            effect.style.display = 'flex';
+            
+            // Animación texto
+            setTimeout(() => {
+                const finalText = document.getElementById('final-text');
+                finalText.style.opacity = '1';
+                finalText.style.transform = 'translateY(0)';
+                finalText.style.transition = 'all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                
+                // Crear flores cayendo
+                const flores = ['🌸', '🌹', '🌺', '🌻', '🌼', '🌷', '💐', '🏵️'];
+                const crearFlor = () => {
+                    const flor = document.createElement('div');
+                    flor.className = 'flor';
+                    flor.textContent = flores[Math.floor(Math.random() * flores.length)];
+                    flor.style.left = `${Math.random() * 100}vw`;
+                    flor.style.top = '-50px';
+                    flor.style.animationDuration = `${Math.random() * 5 + 3}s`;
+                    flor.style.opacity = '1';
+                    document.body.appendChild(flor);
+                    
+                    setTimeout(() => {
+                        flor.remove();
+                    }, parseFloat(flor.style.animationDuration) * 1000);
+                };
+                
+                // Crear ositos rebotando
+                const crearOsito = () => {
+                    const osito = document.createElement('div');
+                    osito.className = 'osito';
+                    osito.textContent = '🐻';
+                    osito.style.left = `${Math.random() * 80 + 10}vw`;
+                    osito.style.opacity = '1';
+                    document.body.appendChild(osito);
+                };
+                
+                // Animación Zeus
+                setTimeout(() => {
+                    const zeusContainer = document.getElementById('zeus-container');
+                    zeusContainer.style.opacity = '1';
+                    zeusContainer.style.transform = 'scale(1)';
+                    
+                    // Mostrar GIF de Zeus
+                    setTimeout(() => {
+                        const zeusGif = document.getElementById('zeus-gif');
+                        zeusGif.style.opacity = '1';
+                        zeusGif.style.transform = 'scale(1)';
+                    }, 500);
+                    
+                    // Crear flores y ositos
+                    setInterval(crearFlor, 300);
+                    setInterval(crearOsito, 1500);
+                    
+                    // Reiniciar después de 10 segundos
+                    setTimeout(() => {
+                        effect.style.opacity = '0';
+                        setTimeout(() => {
+                            effect.style.display = 'none';
+                            zeusContainer.style.opacity = '0';
+                            finalText.style.opacity = '0';
+                            zeusGif.style.opacity = '0';
+                            globosExplotados = 0;
+                        }, 1500);
+                    }, 10000);
+                }, 2000);
+            }, 200);
+        }
+    </script>
+</body>
+</html>
